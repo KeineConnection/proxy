@@ -52,7 +52,7 @@ public class CoinsCommand implements SimpleCommand {
                     case "update":
                         source.sendMessage(
                                 MiniMessage.miniMessage().deserialize(
-                                        "typed update"
+                                        "typed updatde"
                                 )
                         );
 
