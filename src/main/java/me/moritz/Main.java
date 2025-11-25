@@ -70,7 +70,8 @@ public class Main {
                 .build();
 
         /* Connection string for MongoDB */
-        Dotenv dotenv = Dotenv.load();
+        Dotenv dotenv = Dotenv
+                .load();
 
         String CONNECTION_STRING = dotenv.get("CONNECTION_STRING");
         MongoClientSettings settings = MongoClientSettings.builder()
