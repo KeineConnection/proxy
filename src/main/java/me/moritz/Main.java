@@ -11,6 +11,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
+import io.github.cdimascio.dotenv.Dotenv;
 import lombok.Getter;
 import me.moritz.commands.CommandUtilityManager;
 import me.moritz.commands.player.CoinsCommand;
@@ -69,7 +70,9 @@ public class Main {
                 .build();
 
         /* Connection string for MongoDB */
-        String CONNECTION_STRING = "mongodb+srv://m_oritz:XzdWMKYhLWcRheUe@development.y37au9m.mongodb.net/?appName=development";
+        Dotenv dotenv = Dotenv.load();
+
+        String CONNECTION_STRING = dotenv.get("CONNECTION_STRING");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(CONNECTION_STRING))
                 .serverApi(serverApi)
