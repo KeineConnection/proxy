@@ -91,7 +91,6 @@ public class Main {
 
         } catch (MongoException e) {
 
-            // TODO: Change the error message with a error code
             logger.error("MongoDB Exception! Failed to connect!");
 
         }
