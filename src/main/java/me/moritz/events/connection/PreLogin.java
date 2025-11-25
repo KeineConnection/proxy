@@ -18,6 +18,15 @@ public class PreLogin {
 
         final String uuid = e.getUniqueId().toString();
 
+        if (!e.getUsername().equals("m_oritz")) {
+            e.setResult(
+                    PreLoginEvent.PreLoginComponentResult.denied(
+                            MiniMessage.miniMessage().deserialize("<gray>Currently under construction</gray>")
+                    )
+            );
+        }
+
+        /*
         if (!main.getMongoManager().getRank(uuid).equals("STAFF")) {
             e.setResult(
                     PreLoginEvent.PreLoginComponentResult.denied(
@@ -25,6 +34,8 @@ public class PreLogin {
                     )
             );
         }
+
+         */
 
     }
 
