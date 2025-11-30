@@ -5,8 +5,10 @@ import com.velocitypowered.api.proxy.Player;
 import me.moritz.Main;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Formatter;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * CoinCommand
@@ -30,7 +32,7 @@ public class CoinsCommand implements SimpleCommand {
 
         String[] args = invocation.arguments();
 
-        if (args.length != 0) {
+        if (args.length >= 1) {
             /*
              TODO: update logic    - with permission (proxy.coins.update)
                 /coins update <userName> <amountOfCoins>
@@ -58,9 +60,63 @@ public class CoinsCommand implements SimpleCommand {
 
                         break;
                     case "add":
-                        source.sendMessage(
+                        if (args.length >= 2) {
+
+                            Optional<Player> p = main.getProxyServer().getPlayer(args[1]);
+
+                            if (p.isPresent()) {
+
+                                if (args.length >= 3) {
+
+                                    try {
+
+                                        int coinsToAdd = Integer.parseInt(args[2]);
+
+                                        // Here we can add the number of coins to the given player
+                                        main.getMongoManager().increaseCoins(p.get().getUniqueId().toString(), coinsToAdd);
+
+                                        // Sending the command executer a message with the amount and the players name
+                                        source.sendMessage(
+                                                MiniMessage.miniMessage().deserialize(
+                                                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray><b><yellow><player></yellow></b> ʀᴇᴄᴇɪᴠᴇᴅ <b><green><coins> </green></b>ᴄᴏɪɴѕ</gray>",
+                                                        Placeholder.parsed("player", p.get().getUsername()),
+                                                        Formatter.number("coins", coinsToAdd)
+                                                )
+                                        );
+
+                                        // Sending to receiver a message with the amount of coins
+                                        p.get().sendMessage(
+                                                MiniMessage.miniMessage().deserialize(
+                                                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ ʀᴇᴄᴇɪᴠᴇᴅ <b><green><coins> </green></b>ᴄᴏɪɴѕ</gray>",
+                                                        Formatter.number("coins", coinsToAdd)
+                                                )
+                                        );
+
+                                    } catch (NumberFormatException e) {
+
+                                        source.sendMessage(
+                                                MiniMessage.miniMessage().deserialize(
+                                                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ <dark_gray><b>ᴅɪᴅɴ’ᴛ</b></dark_gray> ᴇɴᴛᴇʀ ᴀ <b><green>ɴᴜᴍʙᴇʀ</green></b>.</gray>"
+                                                )
+                                        );
+
+                                    }
+
+                                } else source.sendMessage(
+                                        MiniMessage.miniMessage().deserialize(
+                                                "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ᴡʀᴏɴɢ ᴜѕᴀɢᴇ! ᴜѕᴇ /<b>ᴄᴏɪɴѕ ᴀᴅᴅ </b><<yellow><b>ᴜѕᴇʀɴᴀᴍᴇ</b></yellow>> <<b><green>ᴀᴍᴏᴜɴᴛ</green></b>>"
+                                        )
+                                );
+
+                            } else source.sendMessage(
+                                    MiniMessage.miniMessage().deserialize(
+                                            "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray><b><yellow>ᴘʟᴀʏᴇʀ </yellow></b><b><dark_gray>ɴᴏᴛ </dark_gray></b>ᴏɴʟɪɴᴇ</gray>"
+                                    )
+                            );
+
+                        } else source.sendMessage(
                                 MiniMessage.miniMessage().deserialize(
-                                        "type add"
+                                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ᴡʀᴏɴɢ ᴜѕᴀɢᴇ! ᴜѕᴇ /<b>ᴄᴏɪɴѕ ᴀᴅᴅ </b><<yellow><b>ᴜѕᴇʀɴᴀᴍᴇ</b></yellow>> <<b><green>ᴀᴍᴏᴜɴᴛ</green></b>>"
                                 )
                         );
 
@@ -93,7 +149,7 @@ public class CoinsCommand implements SimpleCommand {
 
             } else source.sendMessage(
                     MiniMessage.miniMessage().deserialize(
-                            "<b><red>ᴘʀᴏxʏ</red></b> <gray>ʀᴀɴᴋ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
+                            "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
                     )
             );
 
@@ -107,9 +163,12 @@ public class CoinsCommand implements SimpleCommand {
 
     }
 
+    /*
     @Override
     public List<String> suggest(final Invocation invocation) {
         return List.of("update", "remove", "add", "pay");
     }
+
+     */
 
 }

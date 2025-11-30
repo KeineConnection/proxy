@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 @Plugin(id = "proxy", name = "proxy", version = BuildConstants.VERSION)
 public class Main {
 
+    @Getter
     private final ProxyServer proxyServer;
 
     @Getter
