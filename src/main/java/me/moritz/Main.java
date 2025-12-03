@@ -21,6 +21,8 @@ import me.moritz.events.connection.PostLogin;
 import me.moritz.events.connection.PreLogin;
 import me.moritz.events.proxy.Ping;
 import me.moritz.events.proxy.Shutdown;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bson.Document;
 import org.slf4j.Logger;
 
@@ -32,6 +34,12 @@ public class Main {
 
     @Getter
     private final Logger logger;
+
+    /* Prefix */
+    @Getter
+    private final Component PERMISSION = MiniMessage.miniMessage().deserialize(
+            "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴇʀʀᴏʀ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
+    );
 
     /* MongoDB */
     @Getter
