@@ -7,7 +7,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Formatter;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,9 +36,6 @@ public class CoinsCommand implements SimpleCommand {
              TODO: update logic    - with permission (proxy.coins.update)
                 /coins update <userName> <amountOfCoins>
 
-             TODO: add logic       - with permission (proxy.coins.add)
-                /coins add <userName> <amountOfCoins>
-
              TODO: remove logic    - with permission (proxy.coins.remove)
                 /coins remove <userName> <amountOfCoins>
 
@@ -47,19 +43,23 @@ public class CoinsCommand implements SimpleCommand {
                 /coins pay <userName> <amountOfCoins>
             */
 
-            if (main.getMongoManager().getRank(uuid).equals("STAFF")) {
+            switch (args[0]) {
 
-                switch (args[0]) {
+                case "update":
+                    source.sendMessage(
+                            MiniMessage.miniMessage().deserialize(
+                                    "typed updatde"
+                            )
+                    );
 
-                    case "update":
-                        source.sendMessage(
-                                MiniMessage.miniMessage().deserialize(
-                                        "typed updatde"
-                                )
-                        );
+                    break;
 
-                        break;
-                    case "add":
+                /*
+                    /coins add     <player> <amount>
+                    /coins args[0] args[1]  args[2]
+                 */
+                case "add":
+                    if (main.getMongoManager().getRank(uuid).equals("STAFF")) {
                         if (args.length >= 2) {
 
                             Optional<Player> p = main.getProxyServer().getPlayer(args[1]);
@@ -120,42 +120,43 @@ public class CoinsCommand implements SimpleCommand {
                                 )
                         );
 
-                        break;
-                    case "remove":
-                        source.sendMessage(
-                                MiniMessage.miniMessage().deserialize(
-                                        "type remove"
-                                )
-                        );
+                        // Permission denied
+                    } else source.sendMessage(
+                            MiniMessage.miniMessage().deserialize(
+                                    "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
+                            )
+                    );
 
-                        break;
-                    case "pay":
-                        source.sendMessage(
-                                MiniMessage.miniMessage().deserialize(
-                                        "type pay"
-                                )
-                        );
+                    break;
+                case "remove":
+                    source.sendMessage(
+                            MiniMessage.miniMessage().deserialize(
+                                    "type remove"
+                            )
+                    );
 
-                        break;
-                    default:
-                        source.sendMessage(
-                                MiniMessage.miniMessage().deserialize(
-                                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ᴡʀᴏɴɢ ᴜѕᴀɢᴇ!</gray>"
-                                )
-                        );
-                        break;
+                    break;
+                case "pay":
+                    source.sendMessage(
+                            MiniMessage.miniMessage().deserialize(
+                                    "type pay"
+                            )
+                    );
 
-                }
+                    break;
+                default:
+                    source.sendMessage(
+                            MiniMessage.miniMessage().deserialize(
+                                    "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ᴡʀᴏɴɢ ᴜѕᴀɢᴇ!</gray>"
+                            )
+                    );
+                    break;
 
-            } else source.sendMessage(
-                    MiniMessage.miniMessage().deserialize(
-                            "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
-                    )
-            );
+            }
 
         } else source.sendMessage(
                 MiniMessage.miniMessage().deserialize(
-                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray><coins></gray>",
+                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <b><green><coins></green></b>",
 
                         Formatter.number("coins", main.getMongoManager().getCoins(uuid))
                 )
@@ -163,6 +164,7 @@ public class CoinsCommand implements SimpleCommand {
 
     }
 
+    // TODO: Check args.length to return a list for every length
     /*
     @Override
     public List<String> suggest(final Invocation invocation) {
