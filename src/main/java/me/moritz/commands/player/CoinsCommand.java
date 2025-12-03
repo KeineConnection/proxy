@@ -45,12 +45,22 @@ public class CoinsCommand implements SimpleCommand {
 
             switch (args[0]) {
 
+                /*
+                    Without a valid player, update own coins
+                    /coins update <amount>
+                        -> Future
+
+                    With a valid player
+                    /coins update <player> <amount>
+                    /coins args[0] args[1]  args[2]
+
+                 */
                 case "update":
-                    source.sendMessage(
-                            MiniMessage.miniMessage().deserialize(
-                                    "typed updatde"
-                            )
-                    );
+                    if (main.getMongoManager().getRank(uuid).equals("STAFF")) {
+
+
+
+                    } else source.sendMessage(main.getPERMISSION());
 
                     break;
 
@@ -120,12 +130,8 @@ public class CoinsCommand implements SimpleCommand {
                                 )
                         );
 
-                        // Permission denied
-                    } else source.sendMessage(
-                            MiniMessage.miniMessage().deserialize(
-                                    "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
-                            )
-                    );
+                    // Permission denied
+                    } else source.sendMessage(main.getPERMISSION());
 
                     break;
                 case "remove":
