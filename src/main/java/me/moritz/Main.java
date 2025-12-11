@@ -41,6 +41,11 @@ public class Main {
             "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴇʀʀᴏʀ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ’ʀᴇ <b><red>ɴᴏᴛ </red></b>ᴀʟʟᴏᴡᴇᴅ</gray>"
     );
 
+    @Getter
+    private final Component PREFIX = MiniMessage.miniMessage().deserialize(
+            "<b><red>ᴘʀᴏxʏ</red></b> <dark_gray>•</dark_gray> "
+    );
+
     /* MongoDB */
     @Getter
     private MongoClient client;
