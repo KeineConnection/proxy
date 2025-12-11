@@ -134,6 +134,13 @@ public class MongoManager {
         main.getCollection().findOneAndUpdate(filter, update);
     }
 
+    public void updateRank(String uuid, String rank) {
+        Bson filter = Filters.eq("uuid", uuid);
+        Bson update = Updates.set("rank", rank);
+
+        main.getCollection().findOneAndUpdate(filter, update);
+    }
+
     /* INCREASE methods
      *
      * TODO: Coins    ✓

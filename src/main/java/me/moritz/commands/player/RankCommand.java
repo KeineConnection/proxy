@@ -31,9 +31,10 @@ public class RankCommand implements SimpleCommand {
 
         String[] args = invocation.arguments();
 
+        // OWNER, STAFF, PLAYER
         if (args.length != 0) {
 
-            if (main.getMongoManager().getRank(uuid).equals("STAFF")) {
+            if (main.getMongoManager().getRank(uuid).equals("OWNER")) {
 
 
 
