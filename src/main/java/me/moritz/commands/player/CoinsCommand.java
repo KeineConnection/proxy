@@ -56,7 +56,7 @@ public class CoinsCommand implements SimpleCommand {
 
                  */
                 case "update":
-                    if (main.getMongoManager().getRank(uuid).equals("STAFF")) {
+                    if (main.getMongoManager().getRank(uuid).equals("OWNER")) {
 
 
 
@@ -69,7 +69,7 @@ public class CoinsCommand implements SimpleCommand {
                     /coins args[0] args[1]  args[2]
                  */
                 case "add":
-                    if (main.getMongoManager().getRank(uuid).equals("STAFF")) {
+                    if (main.getMongoManager().getRank(uuid).equals("OWNER")) {
                         if (args.length >= 2) {
 
                             Optional<Player> p = main.getProxyServer().getPlayer(args[1]);
@@ -95,9 +95,9 @@ public class CoinsCommand implements SimpleCommand {
                                         );
 
                                         // Sending to receiver a message with the amount of coins
-                                        p.get().sendMessage(
+                                        p.get().sendActionBar(
                                                 MiniMessage.miniMessage().deserialize(
-                                                        "<b><red>ᴘʀᴏxʏ</red></b> <gray>ᴄᴏɪɴѕ</gray> <dark_gray>•</dark_gray> <gray>ʏᴏᴜ ʀᴇᴄᴇɪᴠᴇᴅ <b><green><coins> </green></b>ᴄᴏɪɴѕ</gray>",
+                                                        "<gray>ʏᴏᴜ ʀᴇᴄᴇɪᴠᴇᴅ <b><green><coins> </green></b>ᴄᴏɪɴѕ</gray>",
                                                         Formatter.number("coins", coinsToAdd)
                                                 )
                                         );
